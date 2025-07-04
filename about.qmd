@@ -2,4 +2,4 @@
 title: "About"
 ---
 
-This site was made for Kane's Data Science Boot Camp. I used Copilot AI to help me make this. 
+This site was made for Kane's [Data Science Boot Camp](https://bootcamp.davidkane.info/). I used Copilot AI and Chat GPT to help me make this. 

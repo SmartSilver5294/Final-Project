@@ -1,5 +1,5 @@
 ---
-title: "Final Project"
+title: "January 2024 Massachusetts Census Data"
 format: html
 execute:
     echo: FALSE
@@ -76,7 +76,7 @@ leaflet(data = ma_map) %>%
   addLegend(
     pal = pal,
     values = ~estimate,
-    title = "Jan 2024 Congestion",
+    title = "Jan 2024 MA Population",
     position = "bottomright"
   )
 

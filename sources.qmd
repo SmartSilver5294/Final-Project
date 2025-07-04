@@ -1,0 +1,6 @@
+---
+title: "Sources"
+format: html
+---
+
+The data was taken from a dataset published by [Mass.gov](https://www.mass.gov/traffic-volume-and-classification-in-massachusetts?_gl=1*x4zy9j*_ga*MjM0Mjk4NzExLjE3NTE1NzY1ODU.*_ga_MCLPEGW7WM*czE3NTE1NzcxMTgkbzEkZzEkdDE3NTE1NzcyMjEkajYwJGwwJGgw) and was addod to/adjusted by me, Copilot AI, and Chat GPT. Since the graphs only focus on January of 2024, the other columns such as months were removed.
