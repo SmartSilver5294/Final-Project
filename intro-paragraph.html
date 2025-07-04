@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Ayush Chandra">
 
-<title>January 2024 Trafic Congestion Factor in Massachusetts – Final Project</title>
+<title>Final Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -91,35 +90,8 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link active" href="./intro-paragraph.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-graphs" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Graphs</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-graphs">    
-        <li>
-    <a class="dropdown-item" href="./congestion-plot.html">
- <span class="dropdown-text">Congestion Graph</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./population-plot-census.html">
- <span class="dropdown-text">Population Graph</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./data-table.qmd">
- <span class="dropdown-text">Table</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="./sources.html"> 
-<span class="menu-text">Sources</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -140,19 +112,13 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">January 2024 Trafic Congestion Factor in Massachusetts</h1>
+<h1 class="title">Final Project</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Ayush Chandra </p>
-          </div>
-  </div>
     
   
     
@@ -163,7 +129,6 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Have you ever been tired or fed up with traffic and are just dying to get out? I’ve been exploring the different traffic congestion levels all around Massachusetts in January of 2024, using a data set from <a href="https://www.mass.gov/traffic-volume-and-classification-in-massachusetts?_gl=1*x4zy9j*_ga*MjM0Mjk4NzExLjE3NTE1NzY1ODU.*_ga_MCLPEGW7WM*czE3NTE1NzcxMTgkbzEkZzEkdDE3NTE1NzcyMjEkajYwJGwwJGgw">Mass.gov</a>. Today, I have compiled the data into an interactive graph that lets you see the traffic congestion levels in most of the cities within MA. I also made another graph about the Jan 2024 Massachusetts census data, so that you can compare the congestion levels to the population. I have found that the highest levels of congestion are near Cape Cod, while the least congestion levels are closer to to west side of the state. Feel free to look around and enjoy!</p>
 
 
 
@@ -240,7 +205,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/SmartSilver5294\.github\.io\/Final-Project\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

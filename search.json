@@ -1,9 +1,23 @@
 [
   {
+    "objectID": "sources.html",
+    "href": "sources.html",
+    "title": "Sources",
+    "section": "",
+    "text": "The data was taken from a dataset published by Mass.gov and was addod to/adjusted by me, Copilot AI, and Chat GPT. Since the graphs only focus on January of 2024, the other columns such as months were removed."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "January 2024 Trafic Congestion Factor in Massachusetts",
+    "section": "",
+    "text": "Have you ever been tired or fed up with traffic and are just dying to get out? I’ve been exploring the different traffic congestion levels all around Massachusetts in January of 2024, using a data set from Mass.gov. Today, I have compiled the data into an interactive graph that lets you see the traffic congestion levels in most of the cities within MA. I also made another graph about the Jan 2024 Massachusetts census data, so that you can compare the congestion levels to the population. I have found that the highest levels of congestion are near Cape Cod, while the least congestion levels are closer to to west side of the state. Feel free to look around and enjoy!"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "This site was made for Kane’s Data Science Boot Camp. I used Copilot AI to help me make this."
+    "text": "This site was made for Kane’s Data Science Boot Camp. I used Copilot AI and Chat GPT to help me make this."
   }
 ]
