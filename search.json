@@ -19,5 +19,12 @@
     "title": "About",
     "section": "",
     "text": "This site was made for Kane’s Data Science Boot Camp. I used Copilot AI and Chat GPT to help me make this."
+  },
+  {
+    "objectID": "data-table.html",
+    "href": "data-table.html",
+    "title": "Data Table",
+    "section": "",
+    "text": "This table takes 20 random values from the data set places it into a table to make it easy for you to compare the areas with each other by looking at the congestion levels columns.\n\n\n\n\n\n\nCity\nCounty\nRegion\nJan 2024 Congestion Factor\n\n\n\n\nRutland\nWorcester\nU1-Worcester\n1.08\n\n\nSouth Dennis\nBarnstable\nRec - East\n1.21\n\n\nDover\nNorfolk\nU1-Boston\n1.07\n\n\nRussell\nHampden\nU1-West\n1.10\n\n\nBecket\nBerkshire\nR1\n1.17\n\n\nWakefield\nMiddlesex\nU1-Boston\n1.07\n\n\nAshby\nMiddlesex\nU1-West\n1.10\n\n\nRowley\nEssex\nU1-Essex\n1.13\n\n\nWashington\nBerkshire\nR1\n1.17\n\n\nNatick\nMiddlesex\nU1-Boston\n1.07\n\n\nGreat Barrington\nBerkshire\nR1\n1.17\n\n\nBarnstable Town\nBarnstable\nRec - East\n1.21\n\n\nHeath\nFranklin\nR1\n1.17\n\n\nPembroke\nPlymouth\nU1-Southeast\n1.14\n\n\nPaxton\nWorcester\nU1-Worcester\n1.08\n\n\nBrockton\nPlymouth\nU1-Southeast\n1.14\n\n\nNorthfield\nFranklin\nR1\n1.17\n\n\nWendell\nFranklin\nU1-West\n1.10\n\n\nActon\nMiddlesex\nU1-West\n1.10\n\n\nEast Pepperell\nMiddlesex\nU1-Boston\n1.07"
   }
 ]
