@@ -5,9 +5,14 @@ website:
   title: "Final Project"
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+      - text: Home
+        menu:
+          - href: index.qmd
+            text: Congestion Graph
+          - href: population-plot-census.qmd
+            text: Population graph for comparison and connections
+      - href: about.qmd
+        text: About
 
 format:
   html:
@@ -16,6 +21,3 @@ format:
       - brand
     css: styles.css
     toc: true
-
-
-

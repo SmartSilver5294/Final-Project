@@ -1,0 +1,83 @@
+---
+title: "Final Project"
+format: html
+execute:
+    echo: FALSE
+    message: FALSE
+    warning: FALSE
+---
+
+
+```{r}
+# Load libraries
+library(leaflet)
+library(sf)
+library(dplyr)
+library(tigris)
+library(tidycensus)
+library(RColorBrewer)
+
+# census_api_key("0bd017d922ce24ad43cc1da99146d932ff428344", install = TRUE)
+readRenviron("~/.Renviron")  # Reload environment
+
+options(tigris_use_cache = TRUE)
+
+# Get town (MCD) boundaries for Massachusetts
+ma_towns <- places(state = "MA", cb = TRUE, class = "sf")
+```
+
+```{r}
+
+
+# Get 2022 ACS 5-Year Total Population estimates
+ma_pop <- get_acs(
+  geography = "place",
+  variables = "B01003_001",  # Total population
+  state = "MA",
+  year = 2022,
+  geometry = FALSE
+)
+
+ma_map <- ma_towns %>%
+  select(GEOID, NAME, geometry) %>%   # Keep NAME explicitly
+  left_join(ma_pop, by = "GEOID")
+
+# Define color palette
+pal <- colorNumeric(
+  palette = "YlOrRd",  # You can swap this for "Blues" or any RColorBrewer palette
+  domain = ma_map$estimate
+)
+
+# Build the Leaflet map
+leaflet(data = ma_map) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(
+  fillColor = ~pal(estimate),
+  color = "#ffffff",
+  weight = 0.4,
+  fillOpacity = 0.7,
+  highlightOptions = highlightOptions(
+    weight = 1.5,
+    color = "#000000",
+    bringToFront = TRUE
+  ),
+  label = ~lapply(
+    paste0(
+      "<strong>City/Town:</strong> ", NAME.x, "<br/>",
+      "<strong>Population:</strong> ", formatC(estimate, format = "d", big.mark = ",")
+    ),
+    htmltools::HTML
+  ),
+  labelOptions = labelOptions(
+    style = list("font-weight" = "normal"),
+    textsize = "13px"
+  )
+) %>%
+  addLegend(
+    pal = pal,
+    values = ~estimate,
+    title = "Jan 2024 Congestion",
+    position = "bottomright"
+  )
+
+```
