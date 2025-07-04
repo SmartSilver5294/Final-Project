@@ -1,5 +1,0 @@
----
-title: "Data Table"
-format: html
----
-
