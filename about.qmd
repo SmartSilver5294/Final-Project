@@ -2,4 +2,8 @@
 title: "About"
 ---
 
-This site was made for Kane's [Data Science Boot Camp](https://bootcamp.davidkane.info/). I used Copilot AI and Chat GPT to help me make this. 
+My name is Ayush Chandra and I am in 9th grade at Sharon High School. Here is my [Email Address](chandra.ayush2021@gmail.com) and my [GitHub account](https://github.com/SmartSilver5294).
+
+My project is about traffic congestion within Massachusetts in the month of January, 2024. Here is the [Github Repo](https://github.com/SmartSilver5294/Traffic-Congestion-In-MA.git).
+
+This site was made for Kane's [Data Science Boot Camp](https://bootcamp.davidkane.info/).
