@@ -1,0 +1,186 @@
+---
+title: "Final Project"
+author: "Ayush Chandra"
+execute:
+    echo: false
+    message: false
+    warning: false
+---
+
+```{r}
+library(dplyr)
+library(leaflet)
+library(sf)
+library(tigris)
+library(readr)
+library(tidyverse)
+library(tibble)
+library(dplyr)
+library(leaflet)
+library(sf)
+library(tigris)
+
+library(tibble)
+
+congestion_data <- tribble(
+  ~City, ~County, ~Region_Group, ~JAN_2024_Factor,
+  "Abington", "Plymouth", "U1-Southeast", 1.14,
+  "Acton", "Middlesex", "U1-West", 1.10,
+  "Acushnet", "Bristol", "U1-Southeast", 1.14,
+  "Adams", "Berkshire", "R1", 1.17,
+  "Agawam", "Hampden", "U1-West", 1.10,
+  "Alford", "Berkshire", "R1", 1.17,
+  "Amesbury", "Essex", "U1-Essex", 1.13,
+  "Amherst", "Hampshire", "U1-West", 1.10,
+  "Andover", "Essex", "U1-Essex", 1.13,
+  "Arlington", "Middlesex", "U1-Boston", 1.07,
+  "Ashburnham", "Worcester", "U1-Worcester", 1.08,
+  "Ashby", "Middlesex", "U1-West", 1.10,
+  "Ashfield", "Franklin", "R1", 1.17,
+  "Ashland", "Middlesex", "U1-West", 1.10,
+  "Athol", "Worcester", "U1-West", 1.10,
+  "Attleboro", "Bristol", "U1-Southeast", 1.14,
+  "Auburn", "Worcester", "U1-Worcester", 1.08,
+  "Avon", "Norfolk", "U1-Boston", 1.07,
+  "Ayer", "Middlesex", "U1-West", 1.10,
+  "Barnstable", "Barnstable", "Rec - East", 1.21,
+  "Barre", "Worcester", "U1-West", 1.10,
+  "Becket", "Berkshire", "R1", 1.17,
+  "Bedford", "Middlesex", "U1-Boston", 1.07,
+  "Belchertown", "Hampshire", "U1-West", 1.10,
+  "Bellingham", "Norfolk", "U1-Southeast", 1.14,
+  "Belmont", "Middlesex", "U1-Boston", 1.07,
+  "Berkley", "Bristol", "U1-Southeast", 1.14,
+  "Berlin", "Worcester", "U1-West", 1.10,
+  "Bernardston", "Franklin", "R1", 1.17,
+  "Beverly", "Essex", "U1-Essex", 1.13,
+  "Billerica", "Middlesex", "U1-Boston", 1.07,
+  "Blackstone", "Worcester", "U1-Southeast", 1.14,
+  "Blandford", "Hampden", "U1-West", 1.10,
+  "Bolton", "Worcester", "U1-West", 1.10,
+  "Boston", "Suffolk", "U1-Boston", 1.07,
+  "Bourne", "Barnstable", "Rec - East", 1.21,
+  "Boxborough", "Middlesex", "U1-West", 1.10,
+  "Boxford", "Essex", "U1-Essex", 1.13,
+  "Boylston", "Worcester", "U1-Worcester", 1.08,
+  "Braintree", "Norfolk", "U1-Boston", 1.07,
+  "Brewster", "Barnstable", "Rec - East", 1.21,
+  "Bridgewater", "Plymouth", "U1-Southeast", 1.14,
+  "Brimfield", "Hampden", "U1-West", 1.10,
+  "Brockton", "Plymouth", "U1-Southeast", 1.14,
+  "Brookfield", "Worcester", "U1-West", 1.10,
+  "Brookline", "Norfolk", "U1-Boston", 1.07,
+  "Buckland", "Franklin", "R1", 1.17,
+  "Burlington", "Middlesex", "U1-Boston", 1.07
+)
+
+congestion_data <- add_row(congestion_data,
+  "Cambridge", "Middlesex", "U1-Boston", 1.07,
+  "Canton", "Norfolk", "U1-Boston", 1.07,
+  "Carlisle", "Middlesex", "U1-Boston", 1.07,
+  "Carver", "Plymouth", "U1-Southeast", 1.14,
+  "Charlemont", "Franklin", "R1", 1.17,
+  "Charlton", "Worcester", "U1-Worcester", 1.08,
+  "Chatham", "Barnstable", "Rec - East", 1.21,
+  "Chelmsford", "Middlesex", "U1-Boston", 1.07,
+  "Chelsea", "Suffolk", "U1-Boston", 1.07,
+  "Cheshire", "Berkshire", "R1", 1.17,
+  "Chester", "Hampden", "U1-West", 1.10,
+  "Chesterfield", "Hampshire", "U1-West", 1.10,
+  "Chicopee", "Hampden", "U1-West", 1.10,
+  "Chilmark", "Dukes", "Rec - Islands", 1.23,
+  "Clarksburg", "Berkshire", "R1", 1.17,
+  "Clinton", "Worcester", "U1-Worcester", 1.08,
+  "Cohasset", "Norfolk", "U1-Boston", 1.07,
+  "Colrain", "Franklin", "R1", 1.17,
+  "Concord", "Middlesex", "U1-Boston", 1.07,
+  "Conway", "Franklin", "R1", 1.17,
+  "Cummington", "Hampshire", "R1", 1.17,
+  "Dalton", "Berkshire", "R1", 1.17,
+  "Danvers", "Essex", "U1-Essex", 1.13,
+  "Dartmouth", "Bristol", "U1-Southeast", 1.14,
+  "Dedham", "Norfolk", "U1-Boston", 1.07,
+  "Deerfield", "Franklin", "U1-West", 1.10,
+  "Dennis", "Barnstable", "Rec - East", 1.21,
+  "Dighton", "Bristol", "U1-Southeast", 1.14,
+  "Douglas", "Worcester", "U1-Worcester", 1.08,
+  "Dover", "Norfolk", "U1-Boston", 1.07,
+  "Dracut", "Middlesex", "U1-Boston", 1.07,
+  "Dudley", "Worcester", "U1-Worcester", 1.08,
+  "Dunstable", "Middlesex", "U1-Boston", 1.07,
+  "Duxbury", "Plymouth", "U1-Southeast", 1.14,
+  "East Bridgewater", "Plymouth", "U1-Southeast", 1.14,
+  "East Brookfield", "Worcester", "U1-Worcester", 1.08,
+  "East Longmeadow", "Hampden", "U1-West", 1.10,
+  "Eastham", "Barnstable", "Rec - East", 1.21,
+  "Easthampton", "Hampshire", "U1-West", 1.10,
+  "Easton", "Bristol", "U1-Southeast", 1.14,
+  "Edgartown", "Dukes", "Rec - Islands", 1.23,
+  "Egremont", "Berkshire", "R1", 1.17,
+  "Erving", "Franklin", "U1-West", 1.10,
+  "Essex", "Essex", "U1-Essex", 1.13,
+  "Everett", "Middlesex", "U1-Boston", 1.07,
+  "Fairhaven", "Bristol", "U1-Southeast", 1.14,
+  "Fall River", "Bristol", "U1-Southeast", 1.14,
+  "Falmouth", "Barnstable", "Rec - East", 1.21,
+  "Fitchburg", "Worcester", "U1-Worcester", 1.08,
+  "Florida", "Berkshire", "R1", 1.17,
+  "Foxborough", "Norfolk", "U1-Southeast", 1.14,
+  "Framingham", "Middlesex", "U1-Boston", 1.07,
+  "Franklin", "Norfolk", "U1-Southeast", 1.14,
+  "Freetown", "Bristol", "U1-Southeast", 1.14,
+  "Gardner", "Worcester", "U1-Worcester", 1.08,
+  "Aquinnah", "Dukes", "Rec - Islands", 1.23
+)
+
+
+
+
+options(tigris_use_cache = TRUE)
+
+# Load Massachusetts city boundaries
+ma_places <- places(state = "MA", cb = TRUE, class = "sf")
+
+# Clean and match city names
+map_data <- ma_places %>%
+  mutate(NAME = trimws(NAME)) %>%
+  left_join(
+    congestion_data %>% mutate(City = trimws(City)),
+    by = c("NAME" = "City")
+  )
+
+# Define color palette
+pal <- colorNumeric(palette = "YlOrRd", domain = map_data$JAN_2024_Factor)
+
+# Build the Leaflet map
+leaflet(map_data) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  addPolygons(
+    fillColor = ~pal(JAN_2024_Factor),
+    weight = 1,
+    opacity = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.7,
+    highlightOptions = highlightOptions(
+      weight = 2,
+      color = "#666",
+      dashArray = "",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    ),
+    label = ~paste0(NAME, ": ", JAN_2024_Factor),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto"
+    )
+  ) %>%
+  addLegend(
+    pal = pal,
+    values = ~JAN_2024_Factor,
+    opacity = 0.7,
+    title = "Jan 2024 Congestion Factor",
+    position = "bottomright"
+  )
+```
