@@ -1,26 +1,25 @@
 ---
-title: "January 2024 Trafic Congestion Factor in Massachusetts"
+title: "Data Table"
+author: "Ayush Chandra"
 format: html
 execute:
-    echo: false
-    message: false
-    warning: false
+    echo: FALSE
+    message: FALSE
+    warning: FALSE
 ---
 
-```{r}
-library(dplyr)
-library(leaflet)
-library(sf)
-library(tigris)
-library(readr)
-library(tidyverse)
-library(tibble)
-library(dplyr)
-library(leaflet)
-library(sf)
-library(tigris)
+This table takes 20 random values from the data set places it into a table to make it easy for you to compare the areas with each other by looking at the congestion levels columns.
 
-library(tibble)
+```{r}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+
+
+
+## Traffic Congestion by Town (Jan 2024)
+
 
 congestion_data <- tribble(
   ~City,                ~County,     ~Region_Group,     ~JAN_2024_Factor,
@@ -427,71 +426,34 @@ congestion_data <- tribble(
   "Ocean Bluff-Brant Rock", "Plymouth", "U1-Southeast", 1.14,
 )
 
+library(knitr)
+library(kableExtra)
+library(dplyr)
 
+# Sample 20 random rows and drop the Region column
+sampled_data <- congestion_data %>%
+  slice_sample(n = 20) %>%
+  select(City, County, `JAN_2024_Factor`)
 
+# Display the sampled data in a nice HTML table
+library(kableExtra)
 
-
-options(tigris_use_cache = TRUE)
-
-# Use cached boundaries
-options(tigris_use_cache = TRUE)
-
-# Load MA places shapefile
-ma_places <- places(state = "MA", cb = TRUE, class = "sf")
-
-# Match city names to boundaries
-map_data <- ma_places %>%
-  mutate(NAME = trimws(NAME)) %>%
-  left_join(
-    congestion_data %>% mutate(City = trimws(City)),
-    by = c("NAME" = "City")
-  )
-
-# Define color palette based on congestion factor
-pal <- colorNumeric("YlOrRd", domain = map_data$JAN_2024_Factor, na.color = "#808080")
-
-
-htmltools::div(id = "map-container",
-leaflet(map_data) %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addPolygons(
-    fillColor = ~pal(JAN_2024_Factor),
-    weight = 1,
-    opacity = 1,
-    color = "white",
-    dashArray = "3",
-    fillOpacity = 0.7,
-    highlightOptions = highlightOptions(
-      weight = 2,
-      color = "#666",
-      dashArray = "",
-      fillOpacity = 0.8,
-      bringToFront = TRUE
-    ),
-    label = ~paste0(NAME, ": ", JAN_2024_Factor),
-    labelOptions = labelOptions(
-      style = list("font-weight" = "normal", padding = "3px 8px"),
-      textsize = "15px",
-      direction = "auto"
-    )
+# Display the sampled data in a nice HTML table
+sampled_data %>%
+  kable(
+    format = "html",
+    col.names = c("City", "County", "Jan 2024 Congestion Factor"),
+    caption = "Sample of January 2024 Traffic Congestion in Massachusetts"
   ) %>%
-  addLegend(
-    pal = pal,
-    values = ~JAN_2024_Factor,
-    opacity = 0.7,
-    title = "Jan 2024 Congestion Factor",
-    position = "bottomright"
-  )
-)
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+    full_width = FALSE,
+    font_size = 16,
+    position = "center",
+  ) %>%
+  row_spec(0, bold = TRUE, font_size = 18, color = "#2c3e50", background = "#D7DADC") %>%
+  column_spec(1, bold = TRUE, color = "#2c3e50") %>%
+  column_spec(3, color = "#2c3e50", background = "#D7DADC", bold = TRUE)
+
 ```
-
-
-<style>
-  #map-container {
-    border: 2px solid black;
-    box-shadow: 0 0 10px #333333;  /* Optional: subtle glow */
-    padding: 4px;                  /* Adds space inside border */
-    margin-bottom: 1em;
-  }
-</style>
 

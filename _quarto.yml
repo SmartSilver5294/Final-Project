@@ -7,7 +7,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - text: Graphs
+      - text: Graphs and Tables
         menu:
           - href: congestion-plot.qmd
             text: Congestion Graph
