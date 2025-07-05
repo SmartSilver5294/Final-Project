@@ -16,6 +16,7 @@ library(dplyr)
 library(tigris)
 library(tidycensus)
 library(RColorBrewer)
+library(htmlwidgets)
 
 # census_api_key("0bd017d922ce24ad43cc1da99146d932ff428344", install = TRUE)
 readRenviron("~/.Renviron")  # Reload environment
@@ -48,36 +49,47 @@ pal <- colorNumeric(
   domain = ma_map$estimate
 )
 
-# Build the Leaflet map
-leaflet(data = ma_map) %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addPolygons(
-  fillColor = ~pal(estimate),
-  color = "#ffffff",
-  weight = 0.4,
-  fillOpacity = 0.7,
-  highlightOptions = highlightOptions(
-    weight = 1.5,
-    color = "#000000",
-    bringToFront = TRUE
-  ),
-  label = ~lapply(
-    paste0(
-      "<strong>City/Town:</strong> ", NAME.x, "<br/>",
-      "<strong>Population:</strong> ", formatC(estimate, format = "d", big.mark = ",")
-    ),
-    htmltools::HTML
-  ),
-  labelOptions = labelOptions(
-    style = list("font-weight" = "normal"),
-    textsize = "13px"
-  )
-) %>%
-  addLegend(
-    pal = pal,
-    values = ~estimate,
-    title = "Jan 2024 MA Population",
-    position = "bottomright"
-  )
+library(htmltools)
 
+div(id = "mymap",
+  leaflet(data = ma_map) %>%
+    addProviderTiles("CartoDB.Positron") %>%
+    addPolygons(
+      fillColor = ~pal(estimate),
+      color = "#ffffff",
+      weight = 0.4,
+      fillOpacity = 0.7,
+      highlightOptions = highlightOptions(
+        weight = 1.5,
+        color = "#000000",
+        bringToFront = TRUE
+      ),
+      label = ~lapply(
+        paste0(
+          "<strong>City/Town:</strong> ", NAME.x, "<br/>",
+          "<strong>Population:</strong> ", formatC(estimate, format = "d", big.mark = ",")
+        ),
+        htmltools::HTML
+      ),
+      labelOptions = labelOptions(
+        style = list("font-weight" = "normal"),
+        textsize = "13px"
+      )
+    ) %>%
+    addLegend(
+      pal = pal,
+      values = ~estimate,
+      title = "Jan 2024 MA Population",
+      position = "bottomright"
+    )
+)
 ```
+
+<style>
+#mymap {
+  border: 2px solid black;
+  border-radius: 4px;         /* optional rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);  /* optional shadow */
+  margin-top: 1em;           /* spacing from top */
+}
+</style>

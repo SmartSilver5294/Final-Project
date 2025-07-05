@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Final Project"
+  title: "MA Traffic Congestion"
   navbar:
     left:
       - href: index.qmd
