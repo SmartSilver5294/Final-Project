@@ -18,13 +18,13 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "My name is Ayush Chandra and I am in 9th grade at Sharon High School. Here is my Email Address and my GitHub account.\nMy project is about traffic congestion within Massachusetts in the month of January, 2024. Here is the Github Repo.\nThis site was made for Kane’s Data Science Boot Camp."
+    "text": "My name is Ayush Chandra and I am in 9th grade at Sharon High School. You find my work on GitHub or contact me at chandra.ayush2021@gmail.com.\nMy project is about traffic congestion within Massachusetts in the month of January, 2024, but is comparable to the MA census and the 2020 congestion statistics. The code and data are available at the Github Repo.\nThis website was created for Kane’s Data Science Boot Camp."
   },
   {
     "objectID": "data-table.html",
     "href": "data-table.html",
     "title": "Data Table",
     "section": "",
-    "text": "This table takes 20 random values from the data set places it into a table to make it easy for you to compare the areas with each other by looking at the congestion levels columns.\n\n\n\n\nSample of January 2024 Traffic Congestion in Massachusetts\n\n\nCity\nCounty\nJan 2024 Congestion Factor\n\n\n\n\nOcean Grove\nBristol\n1.12\n\n\nWest Falmouth\nBarnstable\n1.21\n\n\nWashington\nBerkshire\n1.17\n\n\nAbington\nPlymouth\n1.14\n\n\nNorth Falmouth\nBarnstable\n1.21\n\n\nCanton\nNorfolk\n1.07\n\n\nHalifax\nPlymouth\n1.14\n\n\nCochituate\nNorfolk\n1.07\n\n\nDover\nNorfolk\n1.07\n\n\nBoxford\nEssex\n1.13\n\n\nEast Harwich\nBarnstable\n1.21\n\n\nSandwich\nBarnstable\n1.21\n\n\nActon\nMiddlesex\n1.10\n\n\nTewksbury\nMiddlesex\n1.07\n\n\nWestminster\nWorcester\n1.08\n\n\nPalmer Town\nHampden\n1.10\n\n\nLongmeadow\nHampden\n1.10\n\n\nRockland\nPlymouth\n1.14\n\n\nFlorida\nBerkshire\n1.17\n\n\nWinchester\nMiddlesex\n1.07"
+    "text": "This table takes 20 random values from the data set places it into a table to make it easy for you to compare the areas with each other by looking at the congestion levels columns.\n\n\n\n\nSample of January 2024 Traffic Congestion in Massachusetts\n\n\nCity\nCounty\nJan 2024 Congestion Factor\n\n\n\n\nNewton\nMiddlesex\n1.07\n\n\nHubbardston\nWorcester\n1.08\n\n\nHull\nPlymouth\n1.07\n\n\nNorfolk\nNorfolk\n1.07\n\n\nWinthrop Town\nSuffolk\n1.07\n\n\nWatertown\nMiddlesex\n1.07\n\n\nHamilton\nEssex\n1.13\n\n\nMarshfield Hills\nPlymouth\n1.14\n\n\nHampden\nHampden\n1.10\n\n\nGosnold\nDukes\n1.23\n\n\nAndover\nEssex\n1.13\n\n\nWestport\nBristol\n1.14\n\n\nCarlisle\nMiddlesex\n1.07\n\n\nWestborough\nWorcester\n1.08\n\n\nWest Stockbridge\nBerkshire\n1.17\n\n\nMount Washington\nBerkshire\n1.17\n\n\nPaxton\nWorcester\n1.08\n\n\nBelchertown\nHampshire\n1.10\n\n\nPlympton\nPlymouth\n1.14\n\n\nSudbury\nMiddlesex\n1.07"
   }
 ]
