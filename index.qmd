@@ -197,6 +197,7 @@ congestion_data <- tribble(
   "Lee", "Berkshire", "R1", 1.17,
   "Leicester", "Worcester", "U1-Worcester", 1.08,
   "Lenox Dale", "Berkshire", "R1", 1.17,
+  "Lenox", "Berkshire", "R1", 1.17,
   "Leominster", "Worcester", "U1-Worcester", 1.08,
   "Leverett", "Franklin", "U1-West", 1.10,
   "Lexington", "Middlesex", "U1-Boston", 1.07,
