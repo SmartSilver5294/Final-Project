@@ -2,8 +2,8 @@
 title: "About"
 ---
 
-My name is Ayush Chandra and I am in 9th grade at Sharon High School. Here is my [Email Address](chandra.ayush2021@gmail.com) and my [GitHub account](https://github.com/SmartSilver5294).
+My name is Ayush Chandra and I am in 9th grade at Sharon High School. You find my work on  [GitHub](https://github.com/SmartSilver5294) or contact me at [chandra.ayush2021@gmail.com](chandra.ayush2021@gmail.com).
 
-My project is about traffic congestion within Massachusetts in the month of January, 2024. Here is the [Github Repo](https://github.com/SmartSilver5294/Traffic-Congestion-In-MA.git).
+My project is about traffic congestion within Massachusetts in the month of January, 2024, but is comparable to the MA census and the 2020 congestion statistics. The code and data are available at the [Github Repo](https://github.com/SmartSilver5294/Traffic-Congestion-In-MA.git).
 
-This site was made for Kane's [Data Science Boot Camp](https://bootcamp.davidkane.info/).
+This website was created for Kane's [Data Science Boot Camp](https://bootcamp.davidkane.info/).
