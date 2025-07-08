@@ -1,5 +1,5 @@
 ---
-title: "January 2024 Trafic Congestion Factor in Massachusetts"
+title: "January 2024 Traffic Congestion Factor in Massachusetts"
 format: html
 execute:
     echo: false
