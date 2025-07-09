@@ -1,6 +1,5 @@
 ---
-title: "January 2024 Traffic Congestion Factor in Massachusetts"
-format: html
+title: "January 2024 Trafic Congestion Factor in Massachusetts"
 execute:
     echo: false
     message: false
@@ -451,48 +450,524 @@ map_data <- ma_places %>%
 # Define color palette based on congestion factor
 pal <- colorNumeric("YlOrRd", domain = map_data$JAN_2024_Factor, na.color = "#808080")
 
-
-htmltools::div(id = "map-container",
-leaflet(map_data) %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addPolygons(
-    fillColor = ~pal(JAN_2024_Factor),
-    weight = 1,
-    opacity = 1,
-    color = "white",
-    dashArray = "3",
-    fillOpacity = 0.7,
-    highlightOptions = highlightOptions(
-      weight = 2,
-      color = "#666",
-      dashArray = "",
-      fillOpacity = 0.8,
-      bringToFront = TRUE
-    ),
-    label = ~paste0(NAME, ": ", JAN_2024_Factor),
-    labelOptions = labelOptions(
-      style = list("font-weight" = "normal", padding = "3px 8px"),
-      textsize = "15px",
-      direction = "auto"
-    )
-  ) %>%
-  addLegend(
-    pal = pal,
-    values = ~JAN_2024_Factor,
-    opacity = 0.7,
-    title = "Jan 2024 Congestion Factor",
-    position = "bottomright"
-  )
-)
 ```
 
+
+
+
+```{r}
+#| echo: false
+#| message: false
+library(dplyr)
+library(leaflet)
+library(sf)
+library(tigris)
+library(readr)
+library(tidyverse)
+library(tibble)
+library(dplyr)
+library(leaflet)
+library(sf)
+library(tigris)
+
+library(tibble)
+
+congestion_data_2020 <- tribble(
+  ~City,                ~County,     ~Region_Group,     ~JAN_2020_Congestion,
+  "Abington",           "Plymouth",  "U1-Southeast",    1.18,
+  "Acton",              "Middlesex", "U1-West",         1.14,
+  "Acushnet Center",    "Bristol",   "U1-Southeast",    1.18,
+  "Adams",              "Berkshire", "R1",              0.91,
+  "Agawam Town",        "Hampden",   "U1-West",         1.14,
+  "Alford",             "Berkshire", "R1",              0.91,
+  "Amesbury",           "Essex",     "U1-Essex",        1.16,
+  "Amherst Town",       "Hampshire", "U1-West",         1.14,
+  "Andover",            "Essex",     "U1-Essex",        1.16,
+  "Arlington",          "Middlesex", "U1-Boston",       1.28,
+  "Ashburnham",         "Worcester", "U1-Worcester",    1.14,
+  "South Ashburnham",         "Worcester", "U1-Worcester",    1.14,
+  "Ashby",              "Middlesex", "R1",              0.91,
+  "Ashfield",           "Franklin",  "R1",              0.91,
+  "Ashland",            "Middlesex", "U1-West",         1.14,
+  "Athol",              "Worcester", "R1",              0.91,
+  "Attleboro",          "Bristol",   "U1-Southeast",    1.18,
+  "Auburn",             "Worcester", "U1-Worcester",    1.14,
+  "Avon",               "Norfolk",   "U1-Southeast",    1.18,
+  "Ayer",               "Middlesex", "U1-West",         1.14,
+  "Barnstable Town",    "Barnstable","Rec - East",      1.05,
+  "Barre",              "Worcester", "R1",              0.91,
+  "Becket",             "Berkshire", "R1",              0.91,
+  "Bedford",            "Middlesex", "U1-Boston",       1.28,
+  "Belchertown",        "Hampshire", "U1-West",         1.14,
+  "Bellingham",         "Norfolk",   "U1-Southeast",    1.18,
+  "Belmont",            "Middlesex", "U1-Boston",       1.28,
+  "Berkley",            "Bristol",   "U1-Southeast",    1.18,
+  "Berlin",             "Worcester", "U1-Worcester",    1.14,
+  "Bernardston",        "Franklin",  "R1",              0.91,
+  "Beverly",            "Essex",     "U1-Essex",        1.16,
+  "Billerica",          "Middlesex", "U1-Boston",       1.28,
+  "Blackstone",         "Worcester", "U1-Worcester",    1.14,
+  "Blandford",          "Hampden",   "R1",              0.91,
+  "Bolton",             "Worcester", "U1-West",         1.14,
+  "Boston",             "Suffolk",   "U1-Boston",       1.28,
+  "Bourne",             "Barnstable","Rec - East",      1.05,
+  "Boxborough",         "Middlesex", "U1-West",         1.14,
+  "Boxford",            "Essex",     "U1-Essex",        1.16,
+  "Boylston",           "Worcester", "U1-Worcester",    1.14,
+  "Braintree Town",     "Norfolk",   "U1-Boston",       1.28,
+  "Brewster",           "Barnstable","Rec - East",      1.05,
+  "Bridgewater Town",        "Plymouth",  "U1-Southeast",    1.18,
+  "Brimfield",          "Hampden",   "R1",              0.91,
+  "Brockton",           "Plymouth",  "U1-Southeast",    1.18,
+  "Brookfield",         "Worcester", "R1",              0.91,
+  "Brookline",          "Norfolk",   "U1-Boston",       1.28,
+  "Buckland",           "Franklin",  "R1",              0.91,
+  "Burlington",         "Middlesex", "U1-Boston",       1.28,
+  "Cambridge",          "Middlesex", "U1-Boston",       1.28,
+  "Canton",             "Norfolk",   "U1-Boston",       1.28,
+  "Carlisle",           "Middlesex", "U1-West",         1.14,
+  "Carver",             "Plymouth",  "U1-Southeast",    1.18,
+  "Charlemont",         "Franklin",  "R1",              0.91,
+  "Charlestown",        "Suffolk",   "U1-Boston",       1.28,
+  "Charlton",           "Worcester", "U1-Worcester",    1.14,
+  "Chatham",            "Barnstable","Rec - East",      1.05,
+  "West Chatham",            "Barnstable","Rec - East",      1.05,
+  "Chelmsford",         "Middlesex", "U1-Boston",       1.28,
+  "Chelsea",            "Suffolk",   "U1-Boston",       1.28,
+  "Cheshire",           "Berkshire", "R1",              0.91,
+  "Chester",            "Hampden",   "R1",              0.91,
+  "Chesterfield",       "Hampshire", "R1",              0.91,
+  "Chicopee",           "Hampden",   "U1-West",         1.14,
+  "Chilmark",           "Dukes",     "Rec - East",      1.05,
+  "Clarksburg",         "Berkshire", "R1",              0.91,
+  "Clinton",            "Worcester", "U1-Worcester",    1.14,
+  "Cohasset",           "Norfolk",   "U1-Boston",       1.28,
+  "Colrain",            "Franklin",  "R1",              0.91,
+  "Concord",            "Middlesex", "U1-West",         1.14,
+  "West Concord",            "Middlesex", "U1-West",         1.14,
+  "Conway",             "Franklin",  "R1",              0.91,
+  "Cummington",         "Hampshire", "R1",              0.91,
+  "Dalton",             "Berkshire", "R1",              0.91,
+  "Danvers",            "Essex",     "U1-Essex",        1.16,
+  "Dartmouth",          "Bristol",   "U1-Southeast",    1.18,
+  "Dedham",             "Norfolk",   "U1-Boston",       1.28,
+  "Deerfield",          "Franklin",  "R1",              0.91,
+  "South Deerfield",          "Franklin",  "R1",              0.91,
+  "Dennis",             "Barnstable","Rec - East",      1.05,
+  "Dennis Port",             "Barnstable","Rec - East",      1.05,
+  "East Dennis",             "Barnstable","Rec - East",      1.05,
+  "South Dennis",             "Barnstable","Rec - East",      1.05,
+  "West Dennis",             "Barnstable","Rec - East",      1.05,
+  "Dighton",            "Bristol",   "U1-Southeast",    1.18,
+  "Douglas",            "Worcester", "U1-Worcester",    1.14,
+  "East Douglas",            "Worcester", "U1-Worcester",    1.14,
+  "Dover",              "Norfolk",   "U1-Boston",       1.28,
+  "Dracut",             "Middlesex", "U1-West",         1.14,
+  "Dudley",             "Worcester", "U1-Worcester",    1.14,
+  "Dunstable",          "Middlesex", "R1",              0.91,
+  "Duxbury",            "Plymouth",  "U1-Southeast",    1.18,
+  "South Duxbury",            "Plymouth",  "U1-Southeast",    1.18,
+  "East Bridgewater",   "Plymouth",  "U1-Southeast",    1.18,
+  "East Brookfield",    "Worcester", "R1",              0.91,
+  "East Longmeadow",    "Hampden",   "U1-West",         1.14,
+  "Eastham",            "Barnstable","Rec - East",      1.05,
+  "North Eastham",            "Barnstable","Rec - East",      1.05,
+  "Easthampton",   "Hampshire", "U1-West",         1.14,
+  "Easton",             "Bristol",   "U1-Southeast",    1.18,
+  "Edgartown",          "Dukes",     "Rec - East",      1.05,
+  "Egremont",           "Berkshire", "R1",              0.91,
+  "Erving",             "Franklin",  "R1",              0.91,
+  "Essex",              "Essex",     "U1-Essex",        1.16,
+  "Everett",            "Middlesex", "U1-Boston",       1.28,
+  "Fairhaven",          "Bristol",   "U1-Southeast",    1.18,
+  "Fall River",         "Bristol",   "U1-Southeast",    1.18,
+  "Falmouth",           "Barnstable","Rec - East",      1.05,
+  "East Falmouth",           "Barnstable","Rec - East",      1.05,
+  "West Falmouth",           "Barnstable","Rec - East",      1.05,
+  "North Falmouth",           "Barnstable","Rec - East",      1.05,
+  "Fitchburg",          "Worcester", "U1-Worcester",    1.14,
+  "Florida",            "Berkshire", "R1",              0.91,
+  "Foxborough",         "Norfolk",   "U1-Southeast",    1.18,
+  "Framingham",         "Middlesex", "U1-West",         1.14,
+  "Franklin Town",           "Norfolk",   "U1-Southeast",    1.18,
+  "Freetown",           "Bristol",   "U1-Southeast",    1.18,
+  "Gardner",            "Worcester", "U1-Worcester",    1.14,
+  "Georgetown",         "Essex",     "U1-Essex",        1.16,
+  "Gill",               "Franklin",  "R1",              0.91,
+  "Gloucester",         "Essex",     "U1-Essex",        1.16,
+  "Goshen",             "Hampshire", "R1",              0.91,
+  "Gosnold",            "Dukes",     "Rec - East",      1.05,
+  "Grafton",            "Worcester", "U1-Worcester",    1.14,
+  "Granby",             "Hampshire", "U1-West",         1.14,
+  "Granville",          "Hampden",   "R1",              0.91,
+  "Great Barrington",   "Berkshire", "R1",              0.91,
+  "Greenfield",         "Franklin",  "U1-West",         1.14,
+  "Groton",             "Middlesex", "U1-West",         1.14,
+  "Groveland",          "Essex",     "U1-Essex",        1.16,
+  "Hadley",             "Hampshire", "U1-West",         1.14,
+  "Halifax",            "Plymouth",  "U1-Southeast",    1.18,
+  "Hamilton",           "Essex",     "U1-Essex",        1.16,
+  "Hampden",            "Hampden",   "R1",              0.91,
+  "Hanover",            "Plymouth",  "U1-Southeast",    1.18,
+  "Hanson",             "Plymouth",  "U1-Southeast",    1.18,
+  "Hardwick",           "Worcester", "R1",              0.91,
+  "Harvard",            "Worcester", "U1-West",         1.14,
+  "Harwich Center",            "Barnstable","Rec - East",      1.05,
+  "Harwich Port",            "Barnstable","Rec - East",      1.05,
+  "East Harwich",            "Barnstable","Rec - East",      1.05,
+  "Northwest Harwich",            "Barnstable","Rec - East",      1.05,
+  "Hatfield",           "Hampshire", "R1",              0.91,
+  "Haverhill",          "Essex",     "U1-Essex",        1.16,
+  "Heath",              "Franklin",  "R1",              0.91,
+  "Hingham",            "Plymouth",  "U1-Boston",       1.28,
+  "Hinsdale",           "Berkshire", "R1",              0.91,
+  "Holbrook",           "Norfolk",   "U1-Boston",       1.28,
+  "Holden",             "Worcester", "U1-Worcester",    1.14,
+  "Holland",            "Hampden",   "R1",              0.91,
+  "Holliston",          "Middlesex", "U1-West",         1.14,
+  "Holyoke",            "Hampden",   "U1-West",         1.14,
+  "Hopedale",           "Worcester", "U1-Southeast",    1.18,
+  "Hopkinton",          "Middlesex", "U1-West",         1.14,
+  "Hubbardston",        "Worcester", "R1",              0.91,
+  "Hudson",             "Middlesex", "U1-West",         1.14,
+  "Hull",               "Plymouth",  "U1-Boston",       1.28,
+  "Huntington",         "Hampshire", "R1",              0.91,
+  "Ipswich",            "Essex",     "U1-Essex",        1.16,
+  "Kingston",           "Plymouth",  "U1-Southeast",    1.18,
+  "Lakeville",          "Plymouth",  "U1-Southeast",    1.18,
+  "North Lakeville",          "Plymouth",  "U1-Southeast",    1.18,
+  "Lancaster",          "Worcester", "U1-Worcester",    1.14,
+  "South Lancaster",          "Worcester", "U1-Worcester",    1.14,
+  "Lanesborough",       "Berkshire", "R1",              0.91,
+  "Lawrence",           "Essex",     "U1-Essex",        1.16,
+  "Lee",                "Berkshire", "R1",              0.91,
+  "Leicester",          "Worcester", "U1-Worcester",    1.14,
+  "Lenox",              "Berkshire", "R1",              0.91,
+  "Lenox Dale",              "Berkshire", "R1",              0.91,
+  "Leominster",         "Worcester", "U1-Worcester",    1.14,
+  "Leverett",           "Franklin",  "R1",              0.91,
+  "Lexington",          "Middlesex", "U1-Boston",       1.28,
+  "Leyden",             "Franklin",  "R1",              0.91,
+  "Lincoln",            "Middlesex", "U1-Boston",       1.28,
+  "Littleton Common",          "Middlesex", "U1-West",         1.14,
+  "Longmeadow",         "Hampden",   "U1-West",         1.14,
+  "Lowell",             "Middlesex", "U1-West",         1.14,
+  "Ludlow",             "Hampden",   "U1-West",         1.14,
+  "Lunenburg",          "Worcester", "U1-Worcester",    1.14,
+  "Lynn",               "Essex",     "U1-Essex",        1.16,
+  "Lynnfield",          "Essex",     "U1-Essex",        1.16,
+  "Malden",             "Middlesex", "U1-Boston",       1.28,
+  "Manchester-by-the-Sea","Essex",   "U1-Essex",        1.16,
+  "Mansfield Center",          "Bristol",   "U1-Southeast",    1.18,
+  "Marblehead",         "Essex",     "U1-Essex",        1.16,
+  "Marion Center",             "Plymouth",  "U1-Southeast",    1.18,
+  "Marlborough",        "Middlesex", "U1-West",         1.14,
+  "Marshfield Hills",         "Plymouth",  "U1-Southeast",    1.18,
+  "Marshfield",         "Plymouth",  "U1-Southeast",    1.18,
+  "Mashpee Neck",            "Barnstable","Rec - East",      1.05,
+  "Mattapoisett Center",       "Plymouth",  "U1-Southeast",    1.18,
+  "Maynard",            "Middlesex", "U1-West",         1.14,
+  "Medfield",           "Norfolk",   "U1-Boston",       1.28,
+  "Medford",            "Middlesex", "U1-Boston",       1.28,
+  "Medway",             "Norfolk",   "U1-Southeast",    1.18,
+  "Melrose",            "Middlesex", "U1-Boston",       1.28,
+  "Mendon",             "Worcester", "U1-Southeast",    1.18,
+  "Merrimac",           "Essex",     "U1-Essex",        1.16,
+  "Methuen",            "Essex",     "U1-Essex",        1.16,
+  "Middleborough Center",      "Plymouth",  "U1-Southeast",    1.18,
+  "Middlefield",        "Hampshire", "R1",              0.91,
+  "Middleton",          "Essex",     "U1-Essex",        1.16,
+  "Milford",            "Worcester", "U1-Southeast",    1.18,
+  "Millbury",           "Worcester", "U1-Worcester",    1.14,
+  "Millis",             "Norfolk",   "U1-Southeast",    1.18,
+  "Millis-Clicquot",             "Norfolk",   "U1-Southeast",    1.18,
+  "Millville",          "Worcester", "U1-Worcester",    1.14,
+  "Milton",             "Norfolk",   "U1-Boston",       1.28,
+  "Monroe",             "Franklin",  "R1",              0.91,
+  "Monson Center",             "Hampden",   "R1",              0.91,
+  "Montague",           "Franklin",  "U1-West",         1.14,
+  "Monterey",           "Berkshire", "R1",              0.91,
+  "Montgomery",         "Hampden",   "R1",              0.91,
+  "Mount Washington",   "Berkshire", "R1",              0.91,
+  "Nahant",             "Essex",     "U1-Essex",        1.16,
+  "Nantucket",          "Nantucket", "Rec - East",      1.05,
+  "Natick",             "Middlesex", "U1-West",         1.14,
+  "Needham",            "Norfolk",   "U1-Boston",       1.28,
+  "New Ashford",        "Berkshire", "R1",              0.91,
+  "New Bedford",        "Bristol",   "U1-Southeast",    1.18,
+  "New Braintree",      "Worcester", "R1",              0.91,
+  "New Marlborough",    "Berkshire", "R1",              0.91,
+  "New Salem",          "Franklin",  "R1",              0.91,
+  "Newbury",            "Essex",     "U1-Essex",        1.16,
+  "Newburyport",        "Essex",     "U1-Essex",        1.16,
+  "Newton",             "Middlesex", "U1-Boston",       1.28,
+  "Norfolk",            "Norfolk",   "U1-Southeast",    1.18,
+  "North Adams",        "Berkshire", "R1",              0.91,
+  "North Andover",      "Essex",     "U1-Essex",        1.16,
+  "North Attleborough Town", "Bristol",   "U1-Southeast",    1.18,
+  "North Brookfield",   "Worcester", "R1",              0.91,
+  "North Reading",      "Middlesex", "U1-Boston",       1.28,
+  "Northampton",        "Hampshire", "U1-West",         1.14,
+  "Northborough",       "Worcester", "U1-Worcester",    1.14,
+  "Northbridge",        "Worcester", "U1-Worcester",    1.14,
+  "Northfield",         "Franklin",  "R1",              0.91,
+  "Norton Center",             "Bristol",   "U1-Southeast",    1.18,
+  "Norwell",            "Plymouth",  "U1-Southeast",    1.18,
+  "Norwood",            "Norfolk",   "U1-Boston",       1.28,
+  "Oak Bluffs",         "Dukes",     "Rec - East",      1.05,
+  "Oakham",             "Worcester", "R1",              0.91,
+  "Orange",             "Franklin",  "R1",              0.91,
+  "Orleans",            "Barnstable","Rec - East",      1.05,
+  "Otis",               "Berkshire", "R1",              0.91,
+  "Oxford",             "Worcester", "U1-Worcester",    1.14,
+  "Palmer Town",        "Hampden",   "U1-West",         1.14,
+  "Paxton",             "Worcester", "U1-Worcester",    1.14,
+  "Peabody",            "Essex",     "U1-Essex",        1.16,
+  "Pelham",             "Hampshire", "R1",              0.91,
+  "Pembroke",           "Plymouth",  "U1-Southeast",    1.18,
+  "North Pembroke",           "Plymouth",  "U1-Southeast",    1.18,
+  "Pepperell",          "Middlesex", "U1-West",         1.14,
+  "East Pepperell",          "Middlesex", "U1-West",         1.14,
+  "Peru",               "Berkshire", "R1",              0.91,
+  "Petersham",          "Worcester", "R1",              0.91,
+  "Phillipston",        "Worcester", "R1",              0.91,
+  "Pittsfield",         "Berkshire", "U1-West",         1.14,
+  "Plainfield",         "Hampshire", "R1",              0.91,
+  "Plainville",         "Norfolk",   "U1-Southeast",    1.18,
+  "Plymouth",           "Plymouth",  "U1-Southeast",    1.18,
+  "North Plymouth",           "Plymouth",  "U1-Southeast",    1.18,
+  "Plympton",           "Plymouth",  "U1-Southeast",    1.18,
+  "Princeton",          "Worcester", "R1",              0.91,
+  "Provincetown",       "Barnstable","Rec - East",      1.05,
+  "Quincy",             "Norfolk",   "U1-Boston",       1.28,
+  "Randolph Town",           "Norfolk",   "U1-Boston",       1.28,
+  "Raynham Center",            "Bristol",   "U1-Southeast",    1.18,
+  "Reading",            "Middlesex", "U1-Boston",       1.28,
+  "Rehoboth",           "Bristol",   "U1-Southeast",    1.18,
+  "Revere",             "Suffolk",   "U1-Boston",       1.28,
+  "Richmond",           "Berkshire", "R1",              0.91,
+  "Rochester",          "Plymouth",  "U1-Southeast",    1.18,
+  "Rockland",           "Plymouth",  "U1-Southeast",    1.18,
+  "Rockport",           "Essex",     "U1-Essex",        1.16,
+  "Rowe",               "Franklin",  "R1",              0.91,
+  "Rowley",             "Essex",     "U1-Essex",        1.16,
+  "Royalston",          "Worcester", "R1",              0.91,
+  "Russell",            "Hampden",   "R1",              0.91,
+  "Rutland",            "Worcester", "U1-Worcester",    1.14,
+  "Salem",              "Essex",     "U1-Essex",        1.16,
+  "Salisbury",          "Essex",     "U1-Essex",        1.16,
+  "Sandisfield",        "Berkshire", "R1",              0.91,
+  "Sandwich",           "Barnstable","Rec - East",      1.05,
+  "East Sandwich",           "Barnstable","Rec - East",      1.05,
+  "Saugus",             "Essex",     "U1-Boston",       1.28,
+  "Savoy",              "Berkshire", "R1",              0.91,
+  "Scituate",           "Plymouth",  "U1-Southeast",    1.18,
+  "North Scituate",           "Plymouth",  "U1-Southeast",    1.18,
+  "Seekonk",            "Bristol",   "U1-Southeast",    1.18,
+  "North Seekonk",            "Bristol",   "U1-Southeast",    1.18,
+  "Sharon",             "Norfolk",   "U1-Boston",       1.28,
+  "Sheffield",          "Berkshire", "R1",              0.91,
+  "Shelburne Falls",          "Franklin",  "R1",              0.91,
+  "Sherborn",           "Middlesex", "U1-Boston",       1.28,
+  "Shirley",            "Middlesex", "U1-West",         1.14,
+  "Shrewsbury",         "Worcester", "U1-Worcester",    1.14,
+  "Shutesbury",         "Franklin",  "R1",              0.91,
+  "Somerset",           "Bristol",   "U1-Southeast",    1.18,
+  "Somerville",         "Middlesex", "U1-Boston",       1.28,
+  "South Hadley",       "Hampshire", "U1-West",         1.14,
+  "Southampton",        "Hampshire", "R1",              0.91,
+  "Southborough",       "Worcester", "U1-West",         1.14,
+  "Southbridge Town",   "Worcester", "U1-Worcester",    1.14,
+  "Southwick",          "Hampden",   "U1-West",         1.14,
+  "Spencer",            "Worcester", "U1-Worcester",    1.14,
+  "Springfield",        "Hampden",   "U1-West",         1.14,
+  "Sterling",           "Worcester", "U1-Worcester",    1.14,
+  "Stockbridge",        "Berkshire", "R1",              0.91,
+  "Stoneham",           "Middlesex", "U1-Boston",       1.28,
+  "Stoughton",          "Norfolk",   "U1-Boston",       1.28,
+  "Stow",               "Middlesex", "U1-West",         1.14,
+  "Sturbridge",         "Worcester", "U1-Worcester",    1.14,
+  "Sudbury",            "Middlesex", "U1-West",         1.14,
+  "Sunderland",         "Franklin",  "R1",              0.91,
+  "Sutton",             "Worcester", "U1-Worcester",    1.14,
+  "Swampscott",         "Essex",     "U1-Essex",        1.16,
+  "Swansea",            "Bristol",   "U1-Southeast",    1.18,
+  "Taunton",            "Bristol",   "U1-Southeast",    1.18,
+  "Templeton",          "Worcester", "R1",              0.91,
+  "Tewksbury",          "Middlesex", "U1-Boston",       1.28,
+  "Tisbury",            "Dukes",     "Rec - East",      1.05,
+  "Tolland",            "Hampden",   "R1",              0.91,
+  "Topsfield",          "Essex",     "U1-Essex",        1.16,
+  "Townsend",           "Middlesex", "U1-West",         1.14,
+  "Truro",              "Barnstable","Rec - East",      1.05,
+  "Tyngsborough",       "Middlesex", "U1-West",         1.14,
+  "Tyringham",          "Berkshire", "R1",              0.91,
+  "Upton",              "Worcester", "U1-Southeast",    1.18,
+  "Uxbridge",           "Worcester", "U1-Southeast",    1.18,
+  "Wakefield",          "Middlesex", "U1-Boston",       1.28,
+  "Wales",              "Hampden",   "R1",              0.91,
+  "Walpole",            "Norfolk",   "U1-Boston",       1.28,
+  "Waltham",            "Middlesex", "U1-Boston",       1.28,
+  "Ware",               "Hampshire", "U1-West",         1.14,
+  "Wareham",            "Plymouth",  "U1-Southeast",    1.18,
+  "Wareham Center",            "Plymouth",  "U1-Southeast",    1.18,
+  "West Wareham",            "Plymouth",  "U1-Southeast",    1.18,
+  "Warren",             "Worcester", "R1",              0.91,
+  "West Warren",             "Worcester", "R1",              0.91,
+  "Warwick",            "Franklin",  "R1",              0.91,
+  "Washington",         "Berkshire", "R1",              0.91,
+  "Watertown",     "Middlesex", "U1-Boston",       1.28,
+  "Wayland",            "Middlesex", "U1-West",         1.14,
+  "Webster",            "Worcester", "U1-Worcester",    1.14,
+  "Wellesley",          "Norfolk",   "U1-Boston",       1.28,
+  "Wellfleet",          "Barnstable","Rec - East",      1.05,
+  "Wendell",            "Franklin",  "R1",              0.91,
+  "Wenham",             "Essex",     "U1-Essex",        1.16,
+  "West Boylston",      "Worcester", "U1-Worcester",    1.14,
+  "West Bridgewater",   "Plymouth",  "U1-Southeast",    1.18,
+  "West Brookfield",    "Worcester", "R1",              0.91,
+  "West Newbury",       "Essex",     "U1-Essex",        1.16,
+  "West Springfield Town",   "Hampden",   "U1-West",         1.14,
+  "West Stockbridge",   "Berkshire", "R1",              0.91,
+  "West Tisbury",       "Dukes",     "Rec - East",      1.05,
+  "Westborough",        "Worcester", "U1-West",         1.14,
+  "Westfield",          "Hampden",   "U1-West",         1.14,
+  "Westford",           "Middlesex", "U1-West",         1.14,
+  "Westhampton",        "Hampshire", "R1",              0.91,
+  "Westminster",        "Worcester", "U1-Worcester",    1.14,
+  "Weston",             "Middlesex", "U1-Boston",       1.28,
+  "Westport",           "Bristol",   "U1-Southeast",    1.18,
+  "North Westport",           "Bristol",   "U1-Southeast",    1.18,
+  "Westwood",           "Norfolk",   "U1-Boston",       1.28,
+  "Weymouth Town",      "Norfolk",   "U1-Boston",       1.28,
+  "Whately",            "Franklin",  "R1",              0.91,
+  "Whitman",            "Plymouth",  "U1-Southeast",    1.18,
+)
+
+```
+
+```{r}
+
+options(tigris_use_cache = TRUE)
+
+ma_places <- places(state = "MA", cb = TRUE, class = "sf")
+
+
+# Match city names to boundaries
+map_data <- ma_places %>%
+  mutate(NAME = trimws(NAME)) %>%
+  left_join(
+    congestion_data_2020 %>% mutate(City = trimws(City)),
+    by = c("NAME" = "City")
+  )
+
+# Define color palette based on 2020 congestion factor
+pal <- colorNumeric("YlOrRd", domain = map_data$JAN_2020_Congestion, na.color = "#808080")
+```
+
+
+
+```{r}
+library(leaflet)
+library(dplyr)
+library(sf)
+library(tigris)
+options(tigris_use_cache = TRUE)
+
+# Load MA places shapefile
+ma_places <- places(state = "MA", cb = TRUE, class = "sf") %>%
+  mutate(NAME = trimws(NAME))
+
+# Prepare 2020 layer
+map_2020 <- left_join(
+  ma_places,
+  congestion_data_2020 %>% mutate(City = trimws(City)),
+  by = c("NAME" = "City")
+)
+
+# Prepare 2024 layer
+map_2024 <- left_join(
+  ma_places,
+  congestion_data %>% mutate(City = trimws(City)),
+  by = c("NAME" = "City")
+)
+
+# Define color palettes
+combined_values <- c(map_2020$JAN_2020_Congestion, map_2024$JAN_2024_Factor)
+combined_pal <- colorNumeric("YlOrRd", domain = combined_values, na.color = "#808080")
+
+
+# Create map
+htmltools::div(id = "map-container",
+  leaflet() %>%
+leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+
+  # 2020 layer
+addPolygons(
+  data = map_2020,
+  fillColor = ~combined_pal(JAN_2020_Congestion),
+  weight = 1,
+  color = "white",
+  fillOpacity = 0.7,
+  group = "2020",
+  label = ~paste0(NAME, ": ", JAN_2020_Congestion),
+  labelOptions = labelOptions(
+    style = list("padding" = "3px 8px"),
+    textsize = "12px",
+    direction = "auto"
+  ),
+  highlightOptions = highlightOptions(
+    weight = 2,
+    color = "#666",     
+    fillOpacity = 0.95,     # make fill a bit brighter
+    bringToFront = TRUE
+  )
+) %>%
+
+  # 2024 layer
+  addPolygons(
+  data = map_2024,
+  fillColor = ~combined_pal(JAN_2024_Factor),
+  weight = 1,
+  color = "white",
+  fillOpacity = 0.7,
+  group = "2024",
+  label = ~paste0(NAME, ": ", JAN_2024_Factor),
+  labelOptions = labelOptions(
+    style = list("padding" = "3px 8px"),
+    textsize = "12px",
+    direction = "auto"
+  ),
+  highlightOptions = highlightOptions(
+    weight = 2,
+    color = "#666",
+    fillOpacity = 0.95,
+    bringToFront = TRUE
+  )
+) %>%
+
+  # Single legend shared by both layers
+  addLegend(
+    pal = combined_pal,
+    values = combined_values,
+    title = "Congestion Factor",
+    position = "bottomright"
+  ) %>%
+
+  # Toggle between layers
+  addLayersControl(
+    baseGroups = c("2020", "2024"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+  hideGroup("2024"))
+```
 
 <style>
   #map-container {
     border: 2px solid black;
-    box-shadow: 0 0 10px #333333;  /* Optional: subtle glow */
-    padding: 4px;                  /* Adds space inside border */
+    box-shadow: 0 0 6px #222;  /* Optional shadow for depth */
+    padding: 2px;
     margin-bottom: 1em;
   }
 </style>
-

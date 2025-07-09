@@ -1,10 +1,10 @@
 ---
-title: "January 2024 Trafic Congestion Factor in Massachusetts"
-author: "Ayush Chandra"
+title: "Trying out"
+format: html
 execute:
     echo: false
-    message: false
     warning: false
+    message: false
 ---
 
 ```{r}
@@ -893,10 +893,13 @@ map_2024 <- left_join(
   by = c("NAME" = "City")
 )
 
-# Define color palettes
+
 combined_values <- c(map_2020$JAN_2020_Congestion, map_2024$JAN_2024_Factor)
 combined_pal <- colorNumeric("YlOrRd", domain = combined_values, na.color = "#808080")
 
+# Define color palettes
+pal_2020 <- colorNumeric("YlOrRd", domain = map_2020$JAN_2020_Congestion, na.color = "#808080")
+pal_2024 <- colorNumeric("YlOrRd", domain = map_2024$JAN_2024_Factor, na.color = "#808080")
 
 # Create map
 htmltools::div(id = "map-container",
@@ -905,48 +908,26 @@ leaflet() %>%
   addProviderTiles("CartoDB.Positron") %>%
 
   # 2020 layer
-addPolygons(
-  data = map_2020,
-  fillColor = ~combined_pal(JAN_2020_Congestion),
-  weight = 1,
-  color = "white",
-  fillOpacity = 0.7,
-  group = "2020",
-  label = ~paste0(NAME, ": ", JAN_2020_Congestion),
-  labelOptions = labelOptions(
-    style = list("padding" = "3px 8px"),
-    textsize = "12px",
-    direction = "auto"
-  ),
-  highlightOptions = highlightOptions(
-    weight = 2,
-    color = "#666",     
-    fillOpacity = 0.95,     # make fill a bit brighter
-    bringToFront = TRUE
-  )
-) %>%
+  addPolygons(
+    data = map_2020,
+    fillColor = ~combined_pal(JAN_2020_Congestion),
+    weight = 1,
+    color = "white",
+    fillOpacity = 0.7,
+    group = "2020",
+    label = ~paste0(NAME, ": ", JAN_2020_Congestion)
+  ) %>%
 
   # 2024 layer
   addPolygons(
-  data = map_2024,
-  fillColor = ~combined_pal(JAN_2024_Factor),
-  weight = 1,
-  color = "white",
-  fillOpacity = 0.7,
-  group = "2024",
-  label = ~paste0(NAME, ": ", JAN_2024_Factor),
-  labelOptions = labelOptions(
-    style = list("padding" = "3px 8px"),
-    textsize = "12px",
-    direction = "auto"
-  ),
-  highlightOptions = highlightOptions(
-    weight = 2,
-    color = "#666",
-    fillOpacity = 0.95,
-    bringToFront = TRUE
-  )
-) %>%
+    data = map_2024,
+    fillColor = ~combined_pal(JAN_2024_Factor),
+    weight = 1,
+    color = "white",
+    fillOpacity = 0.7,
+    group = "2024",
+    label = ~paste0(NAME, ": ", JAN_2024_Factor)
+  ) %>%
 
   # Single legend shared by both layers
   addLegend(
@@ -961,7 +942,8 @@ addPolygons(
     baseGroups = c("2020", "2024"),
     options = layersControlOptions(collapsed = FALSE)
   ) %>%
-  hideGroup("2024"))
+  hideGroup("2024")
+)
 
 ```
 
@@ -973,6 +955,3 @@ addPolygons(
     margin-bottom: 1em;
   }
 </style>
-
-
-Have you ever been tired or fed up with traffic congestion delays and are just dying to get out? I've been exploring the different traffic congestion levels all around Massachusetts in January of 2024, using a data set from [Mass.gov](https://www.mass.gov/traffic-volume-and-classification-in-massachusetts?_gl=1*x4zy9j*_ga*MjM0Mjk4NzExLjE3NTE1NzY1ODU.*_ga_MCLPEGW7WM*czE3NTE1NzcxMTgkbzEkZzEkdDE3NTE1NzcyMjEkajYwJGwwJGgw). Today, I have compiled the data into a combined interactive graph that lets you see the traffic congestion levels in most of the cities within MA in January of both 2020 and 2024. I also made another graph about the Jan 2024 Massachusetts census data to compare the congestion levels to the population. I have found that the highest levels of congestion are near Cape Cod, while the lowest congestion levels are closer to the middle and eastern sides of the state. Feel free to look around and enjoy!

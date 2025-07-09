@@ -10,9 +10,7 @@ website:
       - text: Graphs and Tables
         menu:
           - href: congestion-plot.qmd
-            text: Jan 2024 Congestion Graph
-          - href: congestion-plot-2020.qmd
-            text: Jan 2020 Congestion Graph
+            text: Combined Congestion Graphs
           - href: population-plot-census.qmd
             text: Population Graph
           - href: data-table.qmd
