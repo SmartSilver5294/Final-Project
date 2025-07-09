@@ -1,17 +1,10 @@
 [
   {
-    "objectID": "sources.html",
-    "href": "sources.html",
-    "title": "Sources",
+    "objectID": "data-table.html",
+    "href": "data-table.html",
+    "title": "Data Table",
     "section": "",
-    "text": "The data was taken from a dataset published by Mass.gov and was added to/adjusted by me, Copilot AI, and Chat GPT. Since the graphs only focus on January of 2024, the other columns such as months were removed."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "January 2024 Trafic Congestion Factor in Massachusetts",
-    "section": "",
-    "text": "Have you ever been tired or fed up with traffic congestion delays and are just dying to get out? I’ve been exploring the different traffic congestion levels all around Massachusetts in January of 2024, using a data set from Mass.gov. Today, I have compiled the data into an interactive graph that lets you see the traffic congestion levels in most of the cities within MA. I also made another graph about the Jan 2024 Massachusetts census data to compare the congestion levels to the population. I have found that the highest levels of congestion are near Cape Cod, while the lowest congestion levels are closer to the middle and eastern sides of the state. Feel free to look around and enjoy!"
+    "text": "This table takes 20 random values from the data set places it into a table to make it easy for you to compare the areas with each other by looking at the congestion levels columns.\n\n\n\n\nSample of January 2024 Traffic Congestion in Massachusetts\n\n\nCity\nCounty\nJan 2024 Congestion Factor\n\n\n\n\nMilford\nWorcester\n1.08\n\n\nNatick\nMiddlesex\n1.07\n\n\nLynn\nEssex\n1.13\n\n\nSouth Dennis\nBarnstable\n1.21\n\n\nErving\nFranklin\n1.10\n\n\nDevens\nMiddlesex\n1.09\n\n\nWhitman\nPlymouth\n1.14\n\n\nSouth Ashburnham\nWorcester\n1.08\n\n\nGreat Barrington\nBerkshire\n1.17\n\n\nNorth Pembroke\nPlymouth\n1.14\n\n\nAquinnah\nDukes\n1.23\n\n\nSavoy\nBerkshire\n1.17\n\n\nWarren\nWorcester\n1.08\n\n\nSmith Mills\nBristol\n1.14\n\n\nProvincetown\nBarnstable\n1.21\n\n\nDover\nNorfolk\n1.07\n\n\nHardwick\nWorcester\n1.08\n\n\nWeston\nMiddlesex\n1.07\n\n\nAshburnham\nWorcester\n1.08\n\n\nManchester-by-the-Sea\nEssex\n1.13"
   },
   {
     "objectID": "about.html",
@@ -21,10 +14,17 @@
     "text": "My name is Ayush Chandra and I am in 9th grade at Sharon High School. You find my work on GitHub or contact me at chandra.ayush2021@gmail.com.\nMy project is about traffic congestion within Massachusetts in the month of January, 2024, but is comparable to the MA census and the 2020 congestion statistics. The code and data are available at the Github Repo.\nThis website was created for Kane’s Data Science Boot Camp."
   },
   {
-    "objectID": "data-table.html",
-    "href": "data-table.html",
-    "title": "Data Table",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "January 2024 Trafic Congestion Factor in Massachusetts",
     "section": "",
-    "text": "This table takes 20 random values from the data set places it into a table to make it easy for you to compare the areas with each other by looking at the congestion levels columns.\n\n\n\n\nSample of January 2024 Traffic Congestion in Massachusetts\n\n\nCity\nCounty\nJan 2024 Congestion Factor\n\n\n\n\nNorth Attleboro Town\nBristol\n1.14\n\n\nLeicester\nWorcester\n1.08\n\n\nNorth Attleborough Town\nBristol\n1.14\n\n\nEast Dennis\nBarnstable\n1.21\n\n\nRehoboth\nBristol\n1.14\n\n\nHolland\nHampden\n1.10\n\n\nDeerfield\nFranklin\n1.10\n\n\nBuckland\nFranklin\n1.17\n\n\nPlainville\nNorfolk\n1.14\n\n\nSouth Ashburnham\nWorcester\n1.08\n\n\nFramingham\nMiddlesex\n1.07\n\n\nNorwood\nNorfolk\n1.07\n\n\nMerrimac\nEssex\n1.13\n\n\nDartmouth\nBristol\n1.14\n\n\nPeru\nBerkshire\n1.17\n\n\nGoshen\nHampshire\n1.10\n\n\nYarmouth Port\nBarnstable\n1.21\n\n\nNorthampton\nHampshire\n1.10\n\n\nDracut\nMiddlesex\n1.07\n\n\nFoxborough\nNorfolk\n1.14"
+    "text": "Have you ever been tired or fed up with traffic congestion delays and are just dying to get out? I’ve been exploring the different traffic congestion levels all around Massachusetts in January of 2024, using a data set from Mass.gov. Today, I have compiled the data into a combined interactive graph that lets you see the traffic congestion levels in most of the cities within MA in January of both 2020 and 2024. I also made another graph about the Jan 2024 Massachusetts census data to compare the congestion levels to the population. I have found that the highest levels of congestion are near Cape Cod, while the lowest congestion levels are closer to the middle and eastern sides of the state. Feel free to look around and enjoy!"
+  },
+  {
+    "objectID": "sources.html",
+    "href": "sources.html",
+    "title": "Sources",
+    "section": "",
+    "text": "The data was taken from a dataset published by Mass.gov and was added to/adjusted by me, Copilot AI, and Chat GPT. Since the graphs only focus on January of 2024, the other columns such as months were removed."
   }
 ]
